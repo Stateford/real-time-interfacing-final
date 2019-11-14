@@ -1,5 +1,5 @@
 #pragma once
-#include "actors/cursor.h"
+#include "actors/player/player.h"
 #include <SFML\Graphics.hpp>
 
 #include <atomic>
@@ -15,7 +15,7 @@ private:
 	std::thread _hotkeyThread;
 	sf::View *_view;
 
-	Cursor *_cursor;
+	Player *_player;
 
 	const float VIEW_WIDTH = 800.0f;
 	const float VIEW_HEIGHT = 600.0f;
@@ -33,6 +33,7 @@ private:
 public:
 	Renderer();
 	~Renderer();
+
 
 	void start();
 };

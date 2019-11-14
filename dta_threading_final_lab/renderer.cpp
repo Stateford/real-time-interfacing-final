@@ -17,7 +17,7 @@ Renderer::Renderer()
 
 	_running.store(true);
 
-	_cursor = new Cursor(sf::Vector2f{VIEW_WIDTH / 2.0f, VIEW_HEIGHT / 2.0f});
+	_player = new Player(_window);
 
 	this->init();
 }
@@ -31,8 +31,8 @@ Renderer::~Renderer()
 	_view = nullptr;
 	delete _window;
 	_window = nullptr;
-	delete _cursor;
-	_cursor = nullptr;
+	delete _player;
+	_player = nullptr;
 }
 
 void Renderer::init()
@@ -52,7 +52,8 @@ void Renderer::render()
 			std::lock_guard<std::shared_mutex> mutex(_mutex);
 			_window->clear();
 
-			_cursor->draw(_window);
+			// draw the player object
+			_player->draw(deltaTime);
 
 			_window->display();
 		}
@@ -108,25 +109,31 @@ void Renderer::hotkeyListener()
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 		{
 			std::lock_guard<std::shared_mutex> mutex(_mutex);
-			_cursor->up(deltaTime);
+			_player->up(deltaTime);
 		}
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 		{
 			std::lock_guard<std::shared_mutex> mutex(_mutex);
-			_cursor->down(deltaTime);
+			_player->down(deltaTime);
 		}
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 		{
 			std::lock_guard<std::shared_mutex> mutex(_mutex);
-			_cursor->left(deltaTime);
+			_player->left(deltaTime);
 		}
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 		{
 			std::lock_guard<std::shared_mutex> mutex(_mutex);
-			_cursor->right(deltaTime);
+			_player->right(deltaTime);
+		}
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+		{
+			std::lock_guard<std::shared_mutex> mutex(_mutex);
+			_player->shoot();
 		}
 	}
 }

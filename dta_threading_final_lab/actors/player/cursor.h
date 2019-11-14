@@ -9,6 +9,7 @@ private:
 	sf::RectangleShape _vertical;
 
 	sf::Vector2f _position;
+	sf::Vector2f _windowSize;
 
 	float _speed = 2.0f;
 
@@ -20,6 +21,8 @@ public:
 	void down(float);
 	void right(float);
 	void left(float);
+
+	sf::Vector2f getPosition() { return _position; }
 
 	void draw(sf::RenderWindow*);
 };

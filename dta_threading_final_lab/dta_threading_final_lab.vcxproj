@@ -115,12 +115,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="actors\cursor.cpp" />
+    <ClCompile Include="actors\player\cursor.cpp" />
+    <ClCompile Include="actors\player\defenseMissle.cpp" />
+    <ClCompile Include="actors\player\player.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="renderer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="actors\cursor.h" />
+    <ClInclude Include="actors\player\cursor.h" />
+    <ClInclude Include="actors\player\defenseMissle.h" />
+    <ClInclude Include="actors\player\player.h" />
     <ClInclude Include="renderer.h" />
   </ItemGroup>
   <ItemGroup>

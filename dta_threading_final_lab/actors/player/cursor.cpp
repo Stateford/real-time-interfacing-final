@@ -1,12 +1,12 @@
 #include "cursor.h"
 
-Cursor::Cursor(const sf::Vector2f &position) : 
+Cursor::Cursor(const sf::Vector2f &position) :
 	_horizontal(sf::Vector2f(30.0f, 10.0f)),
 	_vertical(sf::Vector2f(10.0f, 30.0f)),
 	_position(position)
 {
-	_horizontal.setOrigin(sf::Vector2f{_horizontal.getSize().x / 2.0f, _horizontal.getSize().y / 2.0f});
-	_vertical.setOrigin(sf::Vector2f{_vertical.getSize().x / 2.0f, _vertical.getSize().y / 2.0f});
+	_horizontal.setOrigin(sf::Vector2f{ _horizontal.getSize().x / 2.0f, _horizontal.getSize().y / 2.0f });
+	_vertical.setOrigin(sf::Vector2f{ _vertical.getSize().x / 2.0f, _vertical.getSize().y / 2.0f });
 
 	this->_setPosition(position);
 }

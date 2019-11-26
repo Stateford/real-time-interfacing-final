@@ -1,6 +1,7 @@
 #pragma once
 
 #include "attackMissle.h"
+#include "../player/player.h"
 #include "../../templates/container.h"
 #include <sfml/Graphics.hpp>
 #include <random>
@@ -19,6 +20,8 @@ public:
     ~EnemyController() = default;
     void nextLevel() { _level += 1; }
     void spawn();
+
+    void collisionCheck(const Player&);
 
     void draw(float);
 };

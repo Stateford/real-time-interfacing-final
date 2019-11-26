@@ -24,4 +24,5 @@ public:
 	void shoot();
 
 	void draw(float);
+    bool collision(const sf::Vector2f&) const;
 };

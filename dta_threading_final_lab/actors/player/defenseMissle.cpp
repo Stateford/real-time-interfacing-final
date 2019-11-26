@@ -1,10 +1,12 @@
 #include "defenseMissle.h"
 
-DefenseMissle::DefenseMissle(sf::RenderWindow *window)
+DefenseMissle::DefenseMissle(sf::RenderWindow *window, const sf::Vector2f &position)
 {
 	_window = window;
 	_shape = new sf::CircleShape(this->_radius);
 	_shape->setFillColor(this->_colors[0]);
+    _shape->setOrigin(_shape->getRadius(), _shape->getRadius());
+    _shape->setPosition(position);
 }
 
 DefenseMissle::~DefenseMissle()
@@ -20,7 +22,13 @@ DefenseMissle::DefenseMissle(const DefenseMissle& other)
 {
 	_window = other._window;
 	_totalTime = other._totalTime;
-	*_shape = *other._shape;
+    if (other._shape)
+    {
+        _shape = new sf::CircleShape();
+        *_shape = *other._shape;
+    }
+    else
+        _shape = nullptr;
 }
 
 DefenseMissle::DefenseMissle(DefenseMissle&& other)
@@ -59,7 +67,7 @@ DefenseMissle& DefenseMissle::operator=(DefenseMissle&& other)
 
 void DefenseMissle::_animation()
 {
-	int value = _totalTime / _animationTime;
+	const int value = _totalTime / _animationTime;
 	sf::Color color = _colors[value];
 	_shape->setFillColor(color);
 }

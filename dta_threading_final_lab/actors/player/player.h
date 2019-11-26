@@ -2,6 +2,7 @@
 
 #include "cursor.h"
 #include "defenseMissle.h"
+#include "../../templates/container.h"
 #include <vector>
 
 class Player {
@@ -9,7 +10,7 @@ class Player {
 private:
 	Cursor *_cursor;
 	sf::RenderWindow *_window;
-	std::vector<DefenseMissle> _missles;
+    ActorContainer<DefenseMissle*> _missles;
 
 public:
 	Player(sf::RenderWindow*);

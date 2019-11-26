@@ -39,12 +39,11 @@ void Player::right(float deltaTime)
 
 void Player::draw(float deltaTime)
 {
+    _missles.draw(deltaTime);
 	this->_cursor->draw(this->_window);
-	for (auto &p : _missles)
-		p.draw(deltaTime);
 }
 
 void Player::shoot()
 {
-	_missles.emplace_back(DefenseMissle(_window));
+	_missles.push(new DefenseMissle(_window, _cursor->getPosition()));
 }

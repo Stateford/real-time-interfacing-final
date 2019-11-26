@@ -7,16 +7,17 @@
 #include <iostream>
 #endif
 
+sf::RenderWindow *Renderer::_window = new sf::RenderWindow(sf::VideoMode(800, 600), "WINDOWNAME");
 
 Renderer::Renderer()
 {
-	_window = new sf::RenderWindow(sf::VideoMode(800, 600), "WindowName");
 	_window->setVerticalSyncEnabled(false);
 	_window->setFramerateLimit(300);
 	_view = new sf::View(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(VIEW_WIDTH, VIEW_HEIGHT));
 
 	_running.store(true);
 
+    _enemy = new EnemyController(_window);
 	_player = new Player(_window);
 
 	this->init();
@@ -31,6 +32,8 @@ Renderer::~Renderer()
 	_view = nullptr;
 	delete _window;
 	_window = nullptr;
+    delete _enemy;
+    _enemy = nullptr;
 	delete _player;
 	_player = nullptr;
 }
@@ -47,13 +50,15 @@ void Renderer::render()
 
 	while (_window->isOpen() || this->_running.load())
 	{
+		deltaTime = clock.restart().asSeconds();
 		{
-			deltaTime = clock.restart().asSeconds();
-			std::lock_guard<std::shared_mutex> mutex(_mutex);
 			_window->clear();
-
-			// draw the player object
-			_player->draw(deltaTime);
+            {
+			    std::lock_guard<std::shared_mutex> mutex(_mutex);
+			    // draw the player object
+			    _player->draw(deltaTime);
+                _enemy->draw(deltaTime);
+            }
 
 			_window->display();
 		}
@@ -104,6 +109,7 @@ void Renderer::eventLoop()
 
 void Renderer::hotkeyListener()
 {
+    static bool is_pressed = false;
 	while (_running.load())
 	{
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
@@ -130,11 +136,16 @@ void Renderer::hotkeyListener()
 			_player->right(deltaTime);
 		}
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+		if (!is_pressed && sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 		{
-			std::lock_guard<std::shared_mutex> mutex(_mutex);
+            is_pressed = true;
 			_player->shoot();
 		}
+
+        if (is_pressed && !sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+        {
+            is_pressed = false;
+        }
 	}
 }
 

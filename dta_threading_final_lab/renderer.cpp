@@ -7,18 +7,18 @@
 #include <iostream>
 #endif
 
-sf::RenderWindow *Renderer::_window = new sf::RenderWindow(sf::VideoMode(800, 600), "WINDOWNAME");
+std::unique_ptr<sf::RenderWindow> Renderer::window = std::make_unique<sf::RenderWindow>(sf::VideoMode(800, 600), "WINDOWNAME");
 
 Renderer::Renderer()
 {
-	_window->setVerticalSyncEnabled(false);
-	_window->setFramerateLimit(300);
+	window->setVerticalSyncEnabled(false);
+	window->setFramerateLimit(300);
 	_view = new sf::View(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(VIEW_WIDTH, VIEW_HEIGHT));
 
 	_running.store(true);
 
-    _enemy = new EnemyController(_window);
-	_player = new Player(_window);
+    _enemy = new EnemyController();
+	_player = new Player();
 
 	this->init();
 }
@@ -30,8 +30,6 @@ Renderer::~Renderer()
 	_hotkeyThread.join();
 	delete _view;
 	_view = nullptr;
-	delete _window;
-	_window = nullptr;
     delete _enemy;
     _enemy = nullptr;
 	delete _player;
@@ -40,19 +38,19 @@ Renderer::~Renderer()
 
 void Renderer::init()
 {
-	auto windowSize = _window->getSize();
+	auto windowSize = window->getSize();
 }
 
 void Renderer::render()
 {
 	sf::Clock clock;
-	_window->setActive(true);
+	window->setActive(true);
 
-	while (_window->isOpen() || this->_running.load())
+	while (window->isOpen() || this->_running.load())
 	{
 		deltaTime = clock.restart().asSeconds();
 		{
-			_window->clear();
+			window->clear();
             {
 			    std::lock_guard<std::shared_mutex> mutex(_mutex);
 			    // draw the player object
@@ -60,7 +58,7 @@ void Renderer::render()
                 _enemy->draw(deltaTime);
             }
 
-			_window->display();
+			window->display();
 		}
 		std::this_thread::sleep_for(std::chrono::milliseconds(1));
 	}
@@ -68,7 +66,7 @@ void Renderer::render()
 
 void Renderer::loop()
 {
-	_window->setActive(false);
+	window->setActive(false);
 
 	_renderThread = std::thread([this]() {
 		render();
@@ -78,7 +76,7 @@ void Renderer::loop()
 		hotkeyListener();
 	});
 
-	while (_window->isOpen())
+	while (window->isOpen())
 	{
 		eventLoop();
 		std::this_thread::sleep_for(std::chrono::milliseconds(100));
@@ -89,7 +87,7 @@ void Renderer::eventLoop()
 {
 	sf::Event evnt;
 
-	while (_window->pollEvent(evnt))
+	while (window->pollEvent(evnt))
 	{
 		switch (evnt.type)
 		{
@@ -98,7 +96,7 @@ void Renderer::eventLoop()
 			break;
 		case evnt.Closed:
 			_running = false;
-			_window->close();
+			window->close();
 			break;
 		default:
 			break;
@@ -151,7 +149,7 @@ void Renderer::hotkeyListener()
 
 void Renderer::resizeView()
 {
-	float aspectRatio = float(_window->getSize().x / _window->getSize().y);
+	float aspectRatio = float(window->getSize().x / window->getSize().y);
 	_view->setSize(VIEW_HEIGHT * aspectRatio, VIEW_HEIGHT);
 }
 

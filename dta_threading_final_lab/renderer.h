@@ -4,12 +4,13 @@
 #include <SFML\Graphics.hpp>
 
 #include <atomic>
+#include <memory>
 #include <shared_mutex>
 
 class Renderer
 {
 private:
-	static sf::RenderWindow *_window;
+
 	std::shared_mutex _mutex;
 	std::atomic<bool> _running;
 	std::thread _renderThread;
@@ -36,7 +37,8 @@ public:
 	Renderer();
 	~Renderer();
 
-    static const sf::Vector2u getWindowSize() { return _window->getSize(); };
+    static std::unique_ptr<sf::RenderWindow> window;
+    static const sf::Vector2u getWindowSize() { return window->getSize(); };
 
 	void start();
 };

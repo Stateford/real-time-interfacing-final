@@ -6,7 +6,6 @@
 class DefenseMissle : public Actor
 {
 private:
-	sf::RenderWindow *_window;
 	const float _ttl = 2.0f;
 	const float _animationTime = 1.0f;
 	const float _radius = 20.0f;
@@ -18,7 +17,7 @@ private:
 	void _animation();
 public:
     DefenseMissle() = default;
-	DefenseMissle(sf::RenderWindow*, const sf::Vector2f&);
+	DefenseMissle(const sf::Vector2f&);
 	~DefenseMissle();
 
 	DefenseMissle(const DefenseMissle&);

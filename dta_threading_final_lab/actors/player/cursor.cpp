@@ -1,4 +1,5 @@
 #include "cursor.h"
+#include "../../renderer.h"
 
 Cursor::Cursor(const sf::Vector2f &position) :
 	_horizontal(sf::Vector2f(30.0f, 10.0f)),
@@ -42,8 +43,8 @@ void Cursor::_setPosition(const sf::Vector2f &position)
 	_vertical.setPosition(_position);
 }
 
-void Cursor::draw(sf::RenderWindow *window)
+void Cursor::draw()
 {
-	window->draw(this->_horizontal);
-	window->draw(this->_vertical);
+	Renderer::window->draw(this->_horizontal);
+	Renderer::window->draw(this->_vertical);
 }

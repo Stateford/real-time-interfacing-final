@@ -18,10 +18,9 @@ private:
     sf::CircleShape _endpoint;
 
     sf::Vector2f _startPoint;
-    sf::RenderWindow *_window;
     bool _finished = false;
 public:
-    AttackMissle(sf::RenderWindow *window, sf::Vector2f startPoint);
+    AttackMissle(sf::Vector2f startPoint);
     ~AttackMissle();
 
     void draw(float) override;

@@ -1,9 +1,8 @@
 #include "enemyController.h"
 #include "../../renderer.h"
 
-EnemyController::EnemyController(sf::RenderWindow *window)
+EnemyController::EnemyController()
 {
-    _window = window;
 }
 
 void EnemyController::spawn()
@@ -12,7 +11,7 @@ void EnemyController::spawn()
 
     std::uniform_int_distribution<int> distribution(0, windowWidth);
     const unsigned int spawnPoint = distribution(_generator);  // generates number in the range 1..6 
-    _missles.push(new AttackMissle(_window, { static_cast<float>(spawnPoint), 0.0f }));
+    _missles.push(new AttackMissle({ static_cast<float>(spawnPoint), 0.0f }));
 }
 
 void EnemyController::draw(float deltaTime)

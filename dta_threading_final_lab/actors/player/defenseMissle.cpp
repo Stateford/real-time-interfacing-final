@@ -1,8 +1,8 @@
 #include "defenseMissle.h"
+#include "../../renderer.h"
 
-DefenseMissle::DefenseMissle(sf::RenderWindow *window, const sf::Vector2f &position)
+DefenseMissle::DefenseMissle(const sf::Vector2f &position)
 {
-	_window = window;
 	_shape = new sf::CircleShape(this->_radius);
 	_shape->setFillColor(this->_colors[0]);
     _shape->setOrigin(_shape->getRadius(), _shape->getRadius());
@@ -20,7 +20,6 @@ DefenseMissle::~DefenseMissle()
 
 DefenseMissle::DefenseMissle(const DefenseMissle& other)
 {
-	_window = other._window;
 	_totalTime = other._totalTime;
     if (other._shape)
     {
@@ -33,8 +32,6 @@ DefenseMissle::DefenseMissle(const DefenseMissle& other)
 
 DefenseMissle::DefenseMissle(DefenseMissle&& other)
 {
-	_window = other._window;
-	other._window = nullptr;
 	_totalTime = other._totalTime;
 	_shape = other._shape;
 	other._shape = nullptr;
@@ -45,7 +42,6 @@ DefenseMissle& DefenseMissle::operator=(const DefenseMissle& other)
 	if (this == &other)
 		return *this;
 
-	_window = other._window;
 	_totalTime = other._totalTime;
 	*_shape = *other._shape;
 
@@ -57,8 +53,6 @@ DefenseMissle& DefenseMissle::operator=(DefenseMissle&& other)
 	if (this == &other)
 		return *this;
 
-	_window = other._window;
-	other._window = nullptr;
 	_totalTime = other._totalTime;
 	_shape = other._shape;
 	other._shape = nullptr;
@@ -77,7 +71,7 @@ void DefenseMissle::draw(float deltaTime)
 	_totalTime += deltaTime;
 	_animation();
 	if (_totalTime <= _ttl)
-		_window->draw(*_shape);
+		Renderer::window->draw(*_shape);
 	else
 		_finished = true;
 }

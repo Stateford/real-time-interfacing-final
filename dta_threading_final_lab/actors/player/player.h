@@ -4,16 +4,16 @@
 #include "defenseMissle.h"
 #include "../../templates/container.h"
 #include <vector>
+#include <memory>
 
 class Player {
 
 private:
 	Cursor *_cursor;
-	sf::RenderWindow *_window;
     ActorContainer<DefenseMissle*> _missles;
 
 public:
-	Player(sf::RenderWindow*);
+	Player();
 	~Player();
 
 	void up(float);

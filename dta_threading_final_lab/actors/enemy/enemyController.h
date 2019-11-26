@@ -9,14 +9,13 @@
 class EnemyController
 {
 private:
-    sf::RenderWindow *_window;
     unsigned int _level = 1;
     float _spawnTime = 6.0f;
     float _totalTime = 0.0f;
     ActorContainer<AttackMissle*> _missles;
     std::default_random_engine _generator;
 public:
-    EnemyController(sf::RenderWindow*);
+    EnemyController();
     ~EnemyController() = default;
     void nextLevel() { _level += 1; }
     void spawn();

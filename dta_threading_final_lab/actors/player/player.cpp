@@ -1,5 +1,7 @@
 #include "player.h"
 #include "../../renderer.h"
+#include "../../utils.h"
+#include <shared_mutex>
 
 
 Player::Player()
@@ -12,7 +14,7 @@ Player::Player()
 
 
     for (unsigned int i = 0; i < 3; i++)
-        _shelters.push(new Shelter({ ((divisor * i) + (divisor / 2.0f) - 1.0f), windowSize.y - baseLine}));
+        _shelters.push(new Shelter({ ((divisor * i) + (divisor / 2.0f)), windowSize.y - baseLine}));
 }
 
 Player::~Player()
@@ -55,4 +57,44 @@ void Player::draw(float deltaTime)
 void Player::shoot()
 {
 	_missles.push(new DefenseMissle(_cursor->getPosition()));
+}
+
+void Player::move(float deltaTime, float x, float y)
+{
+    this->_cursor->move(deltaTime, x, y);
+}
+
+void Player::collisionCheck(EnemyController& enemy)
+{
+    std::shared_mutex mutex;
+
+    for (AttackMissle* atkMissle : enemy._missles)
+    {
+        if (!atkMissle->checkScreenBounds())
+        {
+            atkMissle->defendHit();
+            continue;
+        }
+
+        for (const DefenseMissle* defMissle : _missles)
+        {
+            if (!atkMissle->finished() && !defMissle->finished() && defMissle->collision(*atkMissle))
+            {
+                std::lock_guard<std::shared_mutex> guard(mutex);
+                atkMissle->defendHit();
+                DEBUGPRINT("MISSLE HIT\n");
+            }
+        }
+
+        for (Shelter* shelter : _shelters)
+        {
+            if (!atkMissle->finished() && !shelter->finished() && shelter->collision(*atkMissle))
+            {
+                std::lock_guard<std::shared_mutex> guard(mutex);
+                shelter->hit();
+                atkMissle->defendHit();
+                DEBUGPRINT("SHELTER HIT\n");
+            }
+        }
+    }
 }

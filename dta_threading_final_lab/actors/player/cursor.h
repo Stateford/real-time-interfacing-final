@@ -23,8 +23,10 @@ public:
 	void right(float);
 	void left(float);
 
+    void move(float, float, float);
+
 	sf::Vector2f getPosition() { return _position; }
 
 	void draw(float) override;
-    bool collision(const Actor& actor) const override { return false; };
+    sf::Shape* getShape() const override { return nullptr; };
 };

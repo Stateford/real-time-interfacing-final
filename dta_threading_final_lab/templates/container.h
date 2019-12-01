@@ -3,6 +3,7 @@
 #include "../actors/actor.h"
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include <iterator>
 #include <algorithm>
 
 template<typename T>
@@ -50,6 +51,10 @@ public:
                 delete object;
         }
     }
+
+    decltype(_container.begin()) begin() { return _container.begin(); }
+
+    decltype(_container.end()) end() { return _container.end(); }
 
     T& operator[](unsigned int index) { return _container[index]; }
 

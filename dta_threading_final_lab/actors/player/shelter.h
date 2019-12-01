@@ -7,8 +7,8 @@
 class Shelter : public Actor
 {
 private:
-    const sf::Vector2f RECT_SIZE = {50, 25};
-    sf::RectangleShape _base;
+    const sf::Vector2f RECT_SIZE = {75, 40};
+    sf::RectangleShape *_base;
 
     unsigned int _health = 3;
 
@@ -18,9 +18,16 @@ public:
     Shelter(const sf::Vector2f&);
     ~Shelter();
 
+    Shelter(const Shelter&);
+    Shelter(Shelter&&) noexcept;
+
+    Shelter& operator=(const Shelter&);
+    Shelter& operator=(Shelter&&) noexcept;
+
     void hit();
 
     // Actor Overrides
     void draw(float) override;
-    //bool collision(const Actor& actor) const override;
+    sf::Shape* getShape() const override { return _base; };
+    bool collision(const Actor& actor) const override;
 };

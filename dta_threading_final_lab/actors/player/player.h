@@ -4,6 +4,7 @@
 #include "defenseMissle.h"
 #include "shelter.h"
 #include "../../templates/container.h"
+#include "../enemy/enemyController.h"
 #include <vector>
 #include <memory>
 
@@ -17,6 +18,7 @@ private:
     const unsigned int MAX_HEALTH = 10;
     unsigned int health = MAX_HEALTH;
 
+    friend class EnemeyController;
 public:
 	Player();
 	~Player();
@@ -26,8 +28,10 @@ public:
 	void right(float);
 	void left(float);
 
+    void move(float, float, float);
+
 	void shoot();
 
 	void draw(float);
-    bool collision(const sf::Vector2f&) const;
+    void collisionCheck(EnemyController&);
 };

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "attackMissle.h"
-#include "../player/player.h"
 #include "../../templates/container.h"
 #include <sfml/Graphics.hpp>
 #include <random>
@@ -14,13 +13,13 @@ private:
     float _totalTime = 0.0f;
     ActorContainer<AttackMissle*> _missles;
     std::default_random_engine _generator;
+
+    friend class Player;
 public:
     EnemyController();
     ~EnemyController() = default;
     void nextLevel() { _level += 1; }
     void spawn();
-
-    void collisionCheck(const Player&);
 
     void draw(float);
 };

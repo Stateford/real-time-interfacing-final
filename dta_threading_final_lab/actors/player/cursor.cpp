@@ -43,6 +43,13 @@ void Cursor::_setPosition(const sf::Vector2f &position)
 	_vertical.setPosition(_position);
 }
 
+void Cursor::move(float deltaTime, float x, float y)
+{
+    _position.x += _speed * x * deltaTime;
+    _position.y += _speed * y * deltaTime;
+    this->_setPosition(_position);
+}
+
 void Cursor::draw(float deltaTime)
 {
 	Renderer::window->draw(this->_horizontal);

@@ -3,9 +3,6 @@
 #include <thread>
 #include <chrono>
 
-#if _DEBUG
-#include <iostream>
-#endif
 
 std::unique_ptr<sf::RenderWindow> Renderer::window = std::make_unique<sf::RenderWindow>(sf::VideoMode(800, 600), "WINDOWNAME");
 
@@ -51,6 +48,10 @@ void Renderer::render()
 		deltaTime = clock.restart().asSeconds();
 		{
 			window->clear();
+
+            // check for collisions
+            _player->collisionCheck(*_enemy);
+
             {
 			    std::lock_guard<std::shared_mutex> mutex(_mutex);
 			    // draw the player object
@@ -143,6 +144,14 @@ void Renderer::hotkeyListener()
         if (is_pressed && !sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
         {
             is_pressed = false;
+        }
+
+        if (sf::Joystick::isConnected(0))
+        {
+            const float x = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
+            const float y = sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
+
+            _player->move(deltaTime, x, y);
         }
 	}
 }

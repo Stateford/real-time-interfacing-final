@@ -28,8 +28,10 @@ public:
 
 	void setPosition(const sf::Vector2f& position) { _shape->setPosition(position); }
 	sf::Vector2f getPosition() { return _shape->getPosition(); }
-	bool finished() override { return _finished; }
+	bool finished() const override { return _finished; }
 
+    // Virtual overrides
 	void draw(float) override;
-    //bool collision(const Actor& actor) const override;
+    bool collision(const Actor& actor) const override;
+    sf::Shape* getShape() const override { return _shape; };
 };

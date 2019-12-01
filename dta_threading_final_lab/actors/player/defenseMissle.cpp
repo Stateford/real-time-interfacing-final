@@ -1,6 +1,7 @@
 #include "defenseMissle.h"
 #include "../../renderer.h"
 
+
 DefenseMissle::DefenseMissle(const sf::Vector2f &position)
 {
 	_shape = new sf::CircleShape(this->_radius);
@@ -74,4 +75,11 @@ void DefenseMissle::draw(float deltaTime)
 		Renderer::window->draw(*_shape);
 	else
 		_finished = true;
+}
+
+bool DefenseMissle::collision(const Actor& actor) const
+{
+    auto enemyMissle = static_cast<sf::CircleShape*>(actor.getShape());
+
+    return _shape->getGlobalBounds().intersects(enemyMissle->getGlobalBounds());
 }

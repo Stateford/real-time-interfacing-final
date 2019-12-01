@@ -23,5 +23,7 @@ public:
     AttackMissle(sf::Vector2f startPoint);
     ~AttackMissle();
 
+    // Actor overrides
     void draw(float) override;
+    //bool collision(const Actor& actor) const override;
 };

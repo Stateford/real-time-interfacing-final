@@ -5,6 +5,14 @@
 Player::Player()
 {
 	_cursor = new Cursor({ 50, 100 });
+
+    const auto windowSize = Renderer::window->getSize();
+    const auto divisor = windowSize.x / 3.0f;
+    const auto baseLine = windowSize.y / 8.0f;
+
+
+    for (unsigned int i = 0; i < 3; i++)
+        _shelters.push(new Shelter({ ((divisor * i) + (divisor / 2.0f) - 1.0f), windowSize.y - baseLine}));
 }
 
 Player::~Player()
@@ -40,7 +48,8 @@ void Player::right(float deltaTime)
 void Player::draw(float deltaTime)
 {
     _missles.draw(deltaTime);
-	this->_cursor->draw();
+    _shelters.draw(deltaTime);
+	this->_cursor->draw(deltaTime);
 }
 
 void Player::shoot()

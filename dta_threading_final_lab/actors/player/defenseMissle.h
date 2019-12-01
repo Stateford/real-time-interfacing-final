@@ -21,14 +21,15 @@ public:
 	~DefenseMissle();
 
 	DefenseMissle(const DefenseMissle&);
-	DefenseMissle(DefenseMissle&&);
+	DefenseMissle(DefenseMissle&&) noexcept;
 
 	DefenseMissle& operator=(const DefenseMissle&);
-	DefenseMissle& operator=(DefenseMissle&&);
+	DefenseMissle& operator=(DefenseMissle&&) noexcept;
 
 	void setPosition(const sf::Vector2f& position) { _shape->setPosition(position); }
 	sf::Vector2f getPosition() { return _shape->getPosition(); }
 	bool finished() override { return _finished; }
 
 	void draw(float) override;
+    //bool collision(const Actor& actor) const override;
 };

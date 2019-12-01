@@ -30,7 +30,7 @@ DefenseMissle::DefenseMissle(const DefenseMissle& other)
         _shape = nullptr;
 }
 
-DefenseMissle::DefenseMissle(DefenseMissle&& other)
+DefenseMissle::DefenseMissle(DefenseMissle&& other) noexcept
 {
 	_totalTime = other._totalTime;
 	_shape = other._shape;
@@ -48,7 +48,7 @@ DefenseMissle& DefenseMissle::operator=(const DefenseMissle& other)
 	return *this;
 }
 
-DefenseMissle& DefenseMissle::operator=(DefenseMissle&& other)
+DefenseMissle& DefenseMissle::operator=(DefenseMissle&& other) noexcept
 {
 	if (this == &other)
 		return *this;
@@ -61,7 +61,7 @@ DefenseMissle& DefenseMissle::operator=(DefenseMissle&& other)
 
 void DefenseMissle::_animation()
 {
-	const int value = _totalTime / _animationTime;
+	const int value = static_cast<int>(_totalTime / _animationTime);
 	sf::Color color = _colors[value];
 	_shape->setFillColor(color);
 }

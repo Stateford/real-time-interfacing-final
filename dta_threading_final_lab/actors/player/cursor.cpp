@@ -43,7 +43,7 @@ void Cursor::_setPosition(const sf::Vector2f &position)
 	_vertical.setPosition(_position);
 }
 
-void Cursor::draw()
+void Cursor::draw(float deltaTime)
 {
 	Renderer::window->draw(this->_horizontal);
 	Renderer::window->draw(this->_vertical);

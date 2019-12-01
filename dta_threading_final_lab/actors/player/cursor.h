@@ -1,8 +1,9 @@
 #pragma once
 
+#include "../actor.h"
 #include <SFML/Graphics.hpp>
 
-class Cursor
+class Cursor : public Actor
 {
 private:
 	sf::RectangleShape _horizontal;
@@ -11,7 +12,7 @@ private:
 	sf::Vector2f _position;
 	sf::Vector2f _windowSize;
 
-	float _speed = 3.0f;
+	float _speed = 1.5f;
 
 	void _setPosition(const sf::Vector2f&);
 public:
@@ -24,5 +25,6 @@ public:
 
 	sf::Vector2f getPosition() { return _position; }
 
-	void draw();
+	void draw(float) override;
+    bool collision(const Actor& actor) const override { return false; };
 };

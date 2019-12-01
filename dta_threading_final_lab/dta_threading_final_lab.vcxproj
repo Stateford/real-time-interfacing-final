@@ -123,6 +123,7 @@
     <ClCompile Include="actors\player\defenseMissle.cpp" />
     <ClCompile Include="actors\player\player.cpp" />
     <ClCompile Include="actors\player\shelter.cpp" />
+    <ClCompile Include="actors\player\statusBar.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="renderer.cpp" />
   </ItemGroup>
@@ -132,14 +133,28 @@
     <ClInclude Include="actors\enemy\enemyController.h" />
     <ClInclude Include="actors\player\cursor.h" />
     <ClInclude Include="actors\player\defenseMissle.h" />
+    <ClInclude Include="exceptions.h" />
     <ClInclude Include="actors\player\player.h" />
     <ClInclude Include="actors\player\shelter.h" />
+    <ClInclude Include="actors\player\statusBar.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="templates\container.h" />
     <ClInclude Include="utils.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="install_lib.bat" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="fonts\BebasNeue-Regular.ttf">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</DeploymentContent>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</DeploymentContent>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</DeploymentContent>
+    </Font>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

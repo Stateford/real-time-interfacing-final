@@ -39,6 +39,9 @@
     <ClCompile Include="actors\player\shelter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="actors\player\statusBar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="renderer.h">
@@ -71,10 +74,19 @@
     <ClInclude Include="utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="actors\player\statusBar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="exceptions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="install_lib.bat">
       <Filter>Source Files</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="fonts\BebasNeue-Regular.ttf" />
   </ItemGroup>
 </Project>

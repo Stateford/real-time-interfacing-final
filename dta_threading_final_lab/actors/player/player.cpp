@@ -11,7 +11,7 @@ Player::Player()
     const auto windowSize = Renderer::window->getSize();
     const auto divisor = windowSize.x / 3.0f;
     const auto baseLine = windowSize.y / 8.0f;
-
+    _statusBar = new StatusBar();
 
     for (unsigned int i = 0; i < 3; i++)
         _shelters.push(new Shelter({ ((divisor * i) + (divisor / 2.0f)), windowSize.y - baseLine}));
@@ -21,6 +21,8 @@ Player::~Player()
 {
 	delete _cursor;
 	_cursor = nullptr;
+    delete _statusBar;
+    _statusBar = nullptr;
 }
 
 void Player::up(float deltaTime)
@@ -52,6 +54,7 @@ void Player::draw(float deltaTime)
     _missles.draw(deltaTime);
     _shelters.draw(deltaTime);
 	this->_cursor->draw(deltaTime);
+    this->_statusBar->draw();
 }
 
 void Player::shoot()
@@ -82,6 +85,7 @@ void Player::collisionCheck(EnemyController& enemy)
             {
                 std::lock_guard<std::shared_mutex> guard(mutex);
                 atkMissle->defendHit();
+                _statusBar->addScore(1000);
                 DEBUGPRINT("MISSLE HIT\n");
             }
         }

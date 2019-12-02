@@ -1,7 +1,9 @@
 #include "renderer.h"
 
+#include "utils.h"
 #include <thread>
 #include <chrono>
+#include <cmath>
 
 
 std::unique_ptr<sf::RenderWindow> Renderer::window = std::make_unique<sf::RenderWindow>(sf::VideoMode(800, 600), "WINDOWNAME");
@@ -11,7 +13,6 @@ Renderer::Renderer()
 	window->setVerticalSyncEnabled(false);
 	window->setFramerateLimit(300);
 	_view = new sf::View(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(VIEW_WIDTH, VIEW_HEIGHT));
-
 	_running.store(true);
 
     _enemy = new EnemyController();
@@ -111,39 +112,42 @@ void Renderer::hotkeyListener()
     static bool is_pressed = false;
 	while (_running.load())
 	{
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-		{
-			std::lock_guard<std::shared_mutex> mutex(_mutex);
-			_player->up(deltaTime);
-		}
-
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-		{
-			std::lock_guard<std::shared_mutex> mutex(_mutex);
-			_player->down(deltaTime);
-		}
-
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-		{
-			std::lock_guard<std::shared_mutex> mutex(_mutex);
-			_player->left(deltaTime);
-		}
-
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-		{
-			std::lock_guard<std::shared_mutex> mutex(_mutex);
-			_player->right(deltaTime);
-		}
-
-		if (!is_pressed && sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
-		{
-            is_pressed = true;
-			_player->shoot();
-		}
-
-        if (is_pressed && !sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+        if (!sf::Joystick::isConnected(0))
         {
-            is_pressed = false;
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+            {
+                std::lock_guard<std::shared_mutex> mutex(_mutex);
+                _player->up(deltaTime);
+            }
+
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+            {
+                std::lock_guard<std::shared_mutex> mutex(_mutex);
+                _player->down(deltaTime);
+            }
+
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+            {
+                std::lock_guard<std::shared_mutex> mutex(_mutex);
+                _player->left(deltaTime);
+            }
+
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+            {
+                std::lock_guard<std::shared_mutex> mutex(_mutex);
+                _player->right(deltaTime);
+            }
+
+            if (!is_pressed && sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+            {
+                is_pressed = true;
+                _player->shoot();
+            }
+
+            if (is_pressed && !sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+            {
+                is_pressed = false;
+            }
         }
 
         if (sf::Joystick::isConnected(0))
@@ -151,8 +155,22 @@ void Renderer::hotkeyListener()
             const float x = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
             const float y = sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
 
-            _player->move(deltaTime, x, y);
+            // check deadzone
+            const float xDir = (abs(x) > 5.0f) ? x : 0;
+            const float yDir = (abs(y) > 5.0f) ? y : 0;
+            
+            _player->move(deltaTime, xDir, yDir);
+
+            if (!is_pressed && sf::Joystick::isButtonPressed(0, 0))
+            {
+                is_pressed = true;
+                _player->shoot();
+            }
+
+            if (is_pressed && !sf::Joystick::isButtonPressed(0, 0))
+                is_pressed = false;
         }
+        
 	}
 }
 

@@ -47,6 +47,19 @@ void Cursor::move(float deltaTime, float x, float y)
 {
     _position.x += _speed * x * deltaTime;
     _position.y += _speed * y * deltaTime;
+    
+    auto windowSize = Renderer::getWindowSize();
+
+    if (_position.x < 0.0f)
+        _position.x = 0.0f;
+    else if (_position.x > static_cast<float>(windowSize.x))
+        _position.x = static_cast<float>(windowSize.x);
+
+    if (_position.y < 0.0f)
+        _position.y = 0.0f;
+    else if (_position.y > static_cast<float>(windowSize.y))
+        _position.y = static_cast<float>(windowSize.y);
+
     this->_setPosition(_position);
 }
 

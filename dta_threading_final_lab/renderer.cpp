@@ -50,6 +50,12 @@ void Renderer::render()
 		{
 			window->clear();
 
+            if ((_player->getScore() - _scoreMark) >= LEVEL_SCORE_LIMIT)
+            {
+                _scoreMark = _player->getScore();
+                _enemy->nextLevel();
+            }
+
             // check for collisions
             _player->collisionCheck(*_enemy);
 
@@ -62,6 +68,11 @@ void Renderer::render()
 
 			window->display();
 		}
+
+        // end the game if player loses
+        if (!_player->checkLoseCondition())
+            this->_running.store(false);
+
 		std::this_thread::sleep_for(std::chrono::milliseconds(1));
 	}
 }
@@ -140,6 +151,7 @@ void Renderer::hotkeyListener()
 
             if (!is_pressed && sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
             {
+                std::lock_guard<std::shared_mutex> mutex(_mutex);
                 is_pressed = true;
                 _player->shoot();
             }
@@ -163,6 +175,7 @@ void Renderer::hotkeyListener()
 
             if (!is_pressed && sf::Joystick::isButtonPressed(0, 0))
             {
+                std::lock_guard<std::shared_mutex> mutex(_mutex);
                 is_pressed = true;
                 _player->shoot();
             }

@@ -12,7 +12,7 @@ private:
 	sf::Vector2f _position;
 	sf::Vector2f _windowSize;
 
-	float _speed = 1.5f;
+	float _speed = 0.002f;
 
 	void _setPosition(const sf::Vector2f&);
 public:

@@ -36,4 +36,8 @@ public:
 
 	void draw(float);
     void collisionCheck(EnemyController&);
+
+    unsigned int getScore() const { return _statusBar->getScore(); }
+
+    bool checkLoseCondition();
 };

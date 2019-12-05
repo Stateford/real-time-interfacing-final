@@ -9,7 +9,8 @@ class Shelter : public Actor
 private:
     const sf::Vector2f RECT_SIZE = {75, 40};
     sf::RectangleShape *_base;
-
+    std::vector<sf::RectangleShape> _healthBars;
+    
     unsigned int _health = 3;
 
     bool _visible = true;
@@ -25,6 +26,7 @@ public:
     Shelter& operator=(Shelter&&) noexcept;
 
     void hit();
+    unsigned int getHealth() const { return _health; }
 
     // Actor Overrides
     void draw(float) override;

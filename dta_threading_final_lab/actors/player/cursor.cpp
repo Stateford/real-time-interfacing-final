@@ -1,5 +1,6 @@
 #include "cursor.h"
 #include "../../renderer.h"
+#include "../../utils.h"
 
 Cursor::Cursor(const sf::Vector2f &position) :
 	_horizontal(sf::Vector2f(30.0f, 10.0f)),
@@ -59,7 +60,7 @@ void Cursor::move(float deltaTime, float x, float y)
         _position.y = 0.0f;
     else if (_position.y > static_cast<float>(windowSize.y))
         _position.y = static_cast<float>(windowSize.y);
-
+    //DEBUGPRINT("%f, %f\n", _position.x, _position.y);
     this->_setPosition(_position);
 }
 

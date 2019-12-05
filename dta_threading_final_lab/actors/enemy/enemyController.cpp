@@ -18,7 +18,7 @@ void EnemyController::draw(float deltaTime)
 {
     _totalTime += deltaTime;
 
-    if (_totalTime >= _spawnTime)
+    if (_totalTime >= (_spawnTime * (SPAWN_MODIFIER / _level)))
     {
         spawn();
         _totalTime = 0.0f;

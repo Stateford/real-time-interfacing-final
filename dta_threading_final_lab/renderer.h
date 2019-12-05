@@ -23,9 +23,10 @@ private:
 	const float VIEW_WIDTH = 800.0f;
 	const float VIEW_HEIGHT = 600.0f;
 
-	// NOTE: temp value
-	unsigned int testPlotter = 0;
-	float deltaTime = 0.0f;
+    float deltaTime = 0.0f;
+
+    const unsigned int LEVEL_SCORE_LIMIT = 5000;
+    unsigned int _scoreMark = 0;
 
 	void resizeView();
 	void init();

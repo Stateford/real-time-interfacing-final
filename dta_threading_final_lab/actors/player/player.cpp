@@ -68,7 +68,7 @@ void Player::move(float deltaTime, float x, float y)
     float xDir = (_cursor->getPosition().x >= 0.0f && _cursor->getPosition().x <= static_cast<float>(windowSize.x)) ? x : 0;
     float yDir = (_cursor->getPosition().y >= 0.0f && _cursor->getPosition().y <= static_cast<float>(windowSize.y)) ? y : 0;
 
-    DEBUGPRINT("JOYSTICK: %f, %f\n", xDir, yDir);
+    //DEBUGPRINT("JOYSTICK: %f, %f\n", xDir, yDir);
     this->_cursor->move(deltaTime, xDir, yDir);
 }
 
@@ -106,4 +106,14 @@ void Player::collisionCheck(EnemyController& enemy)
             }
         }
     }
+}
+
+bool Player::checkLoseCondition()
+{
+    for (const auto &shelter : _shelters)
+    {
+        if (shelter->getHealth() > 0)
+            return true;
+    }
+    return false;
 }

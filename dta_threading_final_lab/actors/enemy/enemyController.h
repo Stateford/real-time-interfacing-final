@@ -8,6 +8,7 @@
 class EnemyController
 {
 private:
+    const float SPAWN_MODIFIER = 0.8f;
     unsigned int _level = 1;
     float _spawnTime = 6.0f;
     float _totalTime = 0.0f;

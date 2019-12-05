@@ -20,6 +20,8 @@ public:
     ~StatusBar() = default;
 
     void addScore(unsigned int);
+    unsigned int getScore() const { return _score; }
+
 
     void draw() override;
     sf::Shape* getShape() const { return nullptr; }

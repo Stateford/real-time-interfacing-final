@@ -11,6 +11,8 @@ AttackMissle::AttackMissle(const sf::Vector2f &startPoint)
     _missleLine[1].position = startPoint;
     _missleLine[1].color = sf::Color::Red;
 
+    const sf::Vector2f endPosition = { 0.0f, 0.0f };
+    
     _endpoint->setFillColor(sf::Color::Yellow);
     _endpoint->setOrigin(_endpoint->getRadius(), _endpoint->getRadius());
     _endpoint->setPosition(startPoint);
